@@ -32,16 +32,34 @@ void dfs(int s){
     }
 }
 
-        //    void dfs(int vertex){
-		// 		vis[vertex] = true;
-		// 		//connected++;
-		// 		cout << vertex << " ";
-		// 		for (int i = 0; i < n; i++)
-		// 			if (adjmatrix[vertex][i] == 1 and vis[i] == false){
-		// 				dfs(i);3
-		// 		    }
-		// 		return ;
-		// 	}
+void bfs(int startVertex) {
+    
+    queue<int> queue; 
+    vis[startVertex] = true;
+    queue.push(startVertex);
+
+    while (!queue.empty()) {
+        int currentVertex = queue.front();
+        queue.pop();
+        cout << currentVertex << " "; 
+        for (int adjacentVertex : g[currentVertex]) {
+            if (!vis[adjacentVertex]) {
+                vis[adjacentVertex] = true;
+                queue.push(adjacentVertex);
+            }
+        }
+    }
+}
+
+void bfsDisconnected(int n) {
+
+    for (int i = 0; i < n; i++) {
+        if (!vis[i]) {
+            bfs(i);
+        }
+    }
+}
+
 signed main(){
     cout<<"enter the number of nodes : ";
     int n;cin>>n;
@@ -57,17 +75,18 @@ signed main(){
     while(true){
         cout<<"1.DFS traversal"<<endl;
         cout<<"2.topological sort"<<endl;
-        cout<<"3.EXIT"<<endl;
+        cout<<"3.BFS"<<endl;
+        cout<<"4.EXIT"<<endl;
         cout<<"enter the choice : ";
         int ch;cin>>ch;
         if(ch==1){
-            cout<<"enter the start point of traversal : ";
-            int s;cin>>s;
-            // for(int i=0;i<n;i++){
-            //     if(vis[i]) continue;
-            //     dfs(i);
-            // }
-            dfs(s);
+            // cout<<"enter the start point of traversal : ";
+            // int s;cin>>s;
+            for(int i=0;i<n;i++){
+                if(vis[i]) continue;
+                dfs(i);
+            }
+            //dfs(s);
             cout<<endl;
             for(int i=0;i<n;i++){
                 vis[i]=0;
@@ -79,6 +98,16 @@ signed main(){
                 vis[i]=0;
             }
             cout<<endl;
+        }
+        else if(ch==3){
+            // cout<<"enter the start point of traversal : ";
+            // int s;cin>>s;
+            
+            bfsDisconnected(n);
+            cout<<endl;
+            for(int i=0;i<n;i++){
+                vis[i]=0;
+            }
         }
         else{
             break;
